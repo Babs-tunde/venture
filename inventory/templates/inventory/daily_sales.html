@@ -1,0 +1,44 @@
+{% load static %}  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Sales</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+</head>
+<body>
+    <h1>Daily Sales</h1><a href="{% url 'home' %}">Back to Home</a>
+    
+    <!-- Sales table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Customer</th>
+                <th>Items Sold</th>
+                <th>Total</th>
+                <th>Sold by</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in transaction_data %}
+            <tr>
+                <td>{{ data.sale.id }}</td>
+                <td>{{ data.sale.customer.name }}</td>
+                <td>
+                    <ul>
+                        {% for item in data.sale.items.all %}
+                        <li>{{ item.product.name }} (x{{ item.quantity }})</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td># {{ data.total_amount }}</td>
+                <td> {{ data.user.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>

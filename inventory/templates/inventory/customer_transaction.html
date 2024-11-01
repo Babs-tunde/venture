@@ -1,0 +1,35 @@
+{% load static %}  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ customer.name }}'s Transactions</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+</head>
+<body>
+    <h1>{{ customer.name }}'s Transactions</h1>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Total Amount</th>
+        </tr>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.date }}</td>
+            <td>
+                <ul>
+                    {% for item in transaction.items.all %}
+                    <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                ${{ transaction.items.all|sum:"product.price" }} <!-- Assuming each product has a price field -->
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

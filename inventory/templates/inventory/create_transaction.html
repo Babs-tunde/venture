@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Transaction</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+    
+    <script>
+        // Filter customers by typing letters
+        function filterCustomers() {
+            let input = document.getElementById('customerSearch').value.toLowerCase();
+            let customerOptions = document.getElementById('customer').options;
+            
+            for (let i = 0; i < customerOptions.length; i++) {
+                let option = customerOptions[i];
+                if (option.text.toLowerCase().includes(input)) {
+                    option.style.display = "";
+                } else {
+                    option.style.display = "none";
+                }
+            }
+        }
+
+        // Filter products by typing letters
+        function filterProducts() {
+            let input = document.getElementById('productSearch').value.toLowerCase();
+            let productDivs = document.querySelectorAll('.product-item');
+            
+            productDivs.forEach(function(div) {
+                let productName = div.querySelector('.product-name').textContent.toLowerCase();
+                if (productName.includes(input)) {
+                    div.style.display = "";
+                } else {
+                    div.style.display = "none";
+                }
+            });
+        }
+
+        // Update receipt preview in real time
+        function updateReceipt() {
+            let receiptList = document.getElementById('receipt-items');
+            receiptList.innerHTML = '';  // Clear the receipt preview
+
+            let totalAmount = 0;  // Track total cost of the selected products
+
+            let productCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            productCheckboxes.forEach(function(checkbox) {
+                let productId = checkbox.value;
+                let productName = checkbox.parentElement.querySelector('.product-name').textContent;
+                let productPrice = parseFloat(checkbox.parentElement.querySelector('.product-price').textContent);
+                let quantityInput = checkbox.parentElement.querySelector('input[type="number"]').value;
+
+                if (quantityInput && quantityInput > 0) {
+                    let totalProductPrice = (productPrice * parseInt(quantityInput)).toFixed(2);
+                    let receiptItem = `<li>${productName} - Quantity: ${quantityInput} - Total: # ${totalProductPrice}</li>`;
+                    receiptList.innerHTML += receiptItem;
+
+                    totalAmount += parseFloat(totalProductPrice);
+                }
+            });
+
+            document.getElementById('total-amount').textContent = totalAmount.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+    <h1>Create a New Transaction</h1>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Searchable Customer Dropdown -->
+        <label for="customer">Customer:</label>
+        <input type="text" id="customerSearch" placeholder="Search for customers..." onkeyup="filterCustomers()">
+        <select name="customer_id" id="customer" required>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+
+        <h3>Products</h3>
+        
+        <!-- Searchable Product List -->
+        <input type="text" id="productSearch" placeholder="Search for products..." onkeyup="filterProducts()">
+        
+        <div id="product-list">
+            {% for product in products %}
+            <div class="product-item">
+                <input type="checkbox" name="product_id_{{ product.id }}" value="{{ product.id }}" onclick="updateReceipt()">
+                <span class="product-name">{{ product.name }}</span> 
+                (In stock: {{ product.stock }}) - #
+                <span class="product-price">{{ product.price }}</span>
+                <input type="number" name="quantity_{{ product.id }}" placeholder="Quantity" min="1" max="{{ product.stock }}" oninput="updateReceipt()">
+            </div>
+            {% endfor %}
+        </div>
+
+        <h3>Receipt Preview</h3>
+        <ul id="receipt-items"></ul>
+        <p><strong>Total Amount:</strong> # <span id="total-amount">0.00</span></p>
+
+        <button type="submit">Complete Transaction</button>
+    </form>
+</body>
+</html>
+{% endblock %}

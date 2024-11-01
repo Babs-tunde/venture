@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% block content %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Transaction</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+    
+</head>
+<body>
+    <h1>Create a New Transaction</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="customer">Customer:</label>
+        <select name="customer_id" id="customer" required>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <h3>Products</h3>
+        <div id="product-list">
+            {% for product in products %}
+            <div>
+                <input type="checkbox" name="product_{{ product.id }}" value="{{ product.id }}">
+                {{ product.name }} (In stock: {{ product.stock }}) - ${{ product.price }}
+                <input type="number" name="quantity_{{ product.id }}" placeholder="Quantity" min="1" max="{{ product.stock }}">
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit">Complete Transaction</button>
+    </form>
+</body>
+</html>
+{% endblock %}
+
+{% extends 'base.html' %}
+{% block content %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Transaction</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+    
+    <script>
+        // JavaScript to filter customers by typing letters
+        function filterCustomers() {
+            let input = document.getElementById('customerSearch').value.toLowerCase();
+            let customerOptions = document.getElementById('customer').options;
+            
+            for (let i = 0; i < customerOptions.length; i++) {
+                let option = customerOptions[i];
+                if (option.text.toLowerCase().includes(input)) {
+                    option.style.display = "";
+                } else {
+                    option.style.display = "none";
+                }
+            }
+        }
+
+        // JavaScript to filter products by typing letters
+        function filterProducts() {
+            let input = document.getElementById('productSearch').value.toLowerCase();
+            let productDivs = document.querySelectorAll('.product-item');
+            
+            productDivs.forEach(function(div) {
+                let productName = div.querySelector('.product-name').textContent.toLowerCase();
+                if (productName.includes(input)) {
+                    div.style.display = "";
+                } else {
+                    div.style.display = "none";
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Create a New Transaction</h1>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Searchable Customer Dropdown -->
+        <label for="customer">Customer:</label>
+        <input type="text" id="customerSearch" placeholder="Search for customers..." onkeyup="filterCustomers()">
+        <select name="customer_id" id="customer" required>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+
+        <h3>Products</h3>
+        
+        <!-- Searchable Product List -->
+        <input type="text" id="productSearch" placeholder="Search for products..." onkeyup="filterProducts()">
+        
+        <div id="product-list">
+            {% for product in products %}
+            <div class="product-item">
+                <input type="checkbox" name="product_{{ product.id }}" value="{{ product.id }}">
+                <span class="product-name">{{ product.name }}</span> (In stock: {{ product.stock }}) - ${{ product.price }}
+                <input type="number" name="quantity_{{ product.id }}" placeholder="Quantity" min="1" max="{{ product.stock }}">
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit">Complete Transaction</button>
+    </form>
+</body>
+</html>
+{% endblock %}
+
+
+
+{% extends 'base.html' %}
+{% block content %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Transaction</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+    
+    <script>
+        // JavaScript to filter customers by typing letters
+        function filterCustomers() {
+            let input = document.getElementById('customerSearch').value.toLowerCase();
+            let customerOptions = document.getElementById('customer').options;
+            
+            for (let i = 0; i < customerOptions.length; i++) {
+                let option = customerOptions[i];
+                if (option.text.toLowerCase().includes(input)) {
+                    option.style.display = "";
+                } else {
+                    option.style.display = "none";
+                }
+            }
+        }
+
+        // JavaScript to filter products by typing letters
+        function filterProducts() {
+            let input = document.getElementById('productSearch').value.toLowerCase();
+            let productDivs = document.querySelectorAll('.product-item');
+            
+            productDivs.forEach(function(div) {
+                let productName = div.querySelector('.product-name').textContent.toLowerCase();
+                if (productName.includes(input)) {
+                    div.style.display = "";
+                } else {
+                    div.style.display = "none";
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Create a New Transaction</h1>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Searchable Customer Dropdown -->
+        <label for="customer">Customer:</label>
+        <input type="text" id="customerSearch" placeholder="Search for customers..." onkeyup="filterCustomers()">
+        <select name="customer_id" id="customer" required>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+
+        <h3>Products</h3>
+        
+        <!-- Searchable Product List -->
+        <input type="text" id="productSearch" placeholder="Search for products..." onkeyup="filterProducts()">
+        
+        <div id="product-list">
+            {% for product in products %}
+            <div class="product-item">
+                <input type="checkbox" name="product_{{ product.id }}" value="{{ product.id }}">
+                <span class="product-name">{{ product.name }}</span> (In stock: {{ product.stock }}) - ${{ product.price }}
+                <input type="number" name="quantity_{{ product.id }}" placeholder="Quantity" min="1" max="{{ product.stock }}">
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit">Complete Transaction</button>
+    </form>
+</body>
+</html>
+{% endblock %}
+
+{% load static %}
+
+<h2>Transaction Details for {{ customer.name }}</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Date</th>
+            <th>Total Amount</th>
+            <th>Items</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in transaction_data %}
+        <tr>
+            <td>{{ data.transaction.id }}</td>
+            <td>{{ data.transaction.date }}</td>
+            <td>#{{ data.total_amount }}</td>
+            <td>
+                <ul>
+                    {% for item in data.transaction.items.all %}
+                    <li>{{ item.product.name }} (x{{ item.quantity }})</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <a href="{% url 'receipt_view' data.transaction.id %}">View Receipt</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No transactions found for this customer.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+
+<a href="{% url 'customer_list' %}">Back to Customer List</a>

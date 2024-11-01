@@ -1,0 +1,66 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storebook Details</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+</head>
+<body>
+    <h1>Storebook for {{ storebook.manufacturer.name }}</h1>
+    <p>Total Goods Value: ${{ storebook.total_goods_value }}</p>
+    <p>Outstanding Balance: ${{ storebook.outstanding_balance }}</p>
+    <p>Other Expenses: ${{ storebook.other_expenses }}</p>
+    <p>Total Profit: ${{ total_profit }}</p>
+
+    <h2>Products</h2>
+<table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Company Price (₦)</th>
+            <th>Total Price (₦)</th>
+            <th>Selling Price (₦)</th>
+            <th>Profit (₦)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in entries %}
+        <tr>
+            <td>{{ entry.product_name }}</td>
+            <td>{{ entry.quantity }}</td>
+            <td>{{ entry.retail_price }}</td>
+            <td>{{ entry.company_price }}</td>
+            <td>{{ entry.selling_price }}</td>
+            <td>{{ entry.profit }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Payments</h2>
+<table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Date Paid</th>
+            <th>Amount Paid (₦)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payment in payments %}
+        <tr>
+            <td>{{ payment.date_paid }}</td>
+            <td>{{ payment.amount_paid }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <a href="{% url 'record_payment' storebook.id %}">Record Payment</a>
+    <a href="{% url 'add_storebook_entry' storebook.id %}">Add Product</a>
+    <br><br>
+    <a href="{% url 'home' %}">Back to Home</a>
+</body>
+</html>

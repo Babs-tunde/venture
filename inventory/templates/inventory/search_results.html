@@ -1,0 +1,47 @@
+{% load static %}  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+</head>
+<body>
+    <h1>Search Results</h1>
+    <form method="GET" action="{% url 'search' %}">
+        <input type="text" name="q" placeholder="Search by customer, product, or transaction" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+    
+    <h2>Search Results for "{{ query }}"</h2>
+    
+    <h3>Customers</h3>
+    <ul>
+        {% for customer in customers %}
+        <li>{{ customer.name }}</li>
+        {% empty %}
+        <li>No customers found.</li>
+        {% endfor %}
+    </ul>
+    
+    <h3>Products</h3>
+    <ul>
+        {% for product in products %}
+        <li>{{ product.name }}</li>
+        {% empty %}
+        <li>No products found.</li>
+        {% endfor %}
+    </ul>
+    
+    <h3>Transactions</h3>
+    <ul>
+        {% for transaction in transactions %}
+        <li>Transaction ID: {{ transaction.id }} - Customer: {{ transaction.customer.name }}</li>
+        {% empty %}
+        <li>No transactions found.</li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>

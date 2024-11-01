@@ -1,0 +1,41 @@
+{% load static %}
+
+
+<h2>Receipt for Transaction {{ transaction.id }}</h2>
+
+<p><strong>Customer Name:</strong> {{ transaction.customer.name }}</p>
+<p><strong>Date:</strong> {{ transaction.date }}</p>
+<p><strong>Processed by:</strong> {{ transaction.user.username }}</p>  <!-- Display the user who made the transaction -->
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items_with_subtotals %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>#{{ item.price }}</td>
+            <td>#{{ item.subtotal }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p><strong>Total Amount:</strong> #{{ total_amount }}</p>
+<br> <br>
+<p><strong>Current Outstanding Balance:</strong> #{{ transaction.customer.outstanding_balance }}</p>
+
+
+<!-- Add a button to print the receipt -->
+<button onclick="window.print()">Print Receipt</button>
+<a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+
+

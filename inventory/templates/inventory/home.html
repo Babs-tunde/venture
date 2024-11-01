@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R A ITUNU VENTURES</title>
+    <link rel="stylesheet" href="{% static 'inventory/styles.css' %}">
+    <style>
+        /* Quick styling for a clean, simple layout */
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .stats-table th, .stats-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .stats-table th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>R A ITUNU VENTURES</h1>
+            <p>Manage your stock, transactions, and customers efficiently.</p>
+        </div>
+
+        <div class="grid-container">
+            <div class="card">
+                <h3><a href="{% url 'product_list' %}">View Products</a></h3>
+                <p>Manage and monitor product stock.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="{% url 'create_transaction' %}">Create Transaction</a></h3>
+                <p>Sell products and issue receipts.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="{% url 'daily_sales' %}">View Daily Sales</a></h3>
+                <p>Check today's sales and transactions.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="{% url 'search' %}">Search Records</a></h3>
+                <p>Search by customer, product, or date.</p>
+            </div>
+            <div class="card">
+                <h3><a href="{% url 'customer_list' %}">Customers</a></h3>
+                <p>View Customer List</p>
+            </div>
+            <div class="card">
+                <h3><a href="{% url 'storebook_list' %}">Storebook</a></h3>
+                <p>View Storebook</p>
+            </div>
+            <div class="card">
+                <h3> <a href="{% url 'create_storebook' %}">Create New Storebook</a></h3>
+                <p>Create New Storebook</p>
+            </div>
+            <div class="card">
+                <h3> <a href="{% url 'posting_ledger' %}">Posting Ledger</a></h3>
+                <p>Posting Ledger</p>
+            </div>
+        </div>
+
+        <!-- <h2>Product Stock</h2>
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Manufacturer</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.manufacturer.name }}</td>
+                    <td>${{ product.price }}</td>
+                    <td>{{ product.stock }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> -->
+
+<h2>Today's Sales</h2>
+<p>Total Sales: #{{ total_sales }}</p>
+<!-- <table class="stats-table">
+    <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Customer</th>
+            <th>Items Sold</th>
+            <th>Total Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in transaction_data %}
+        <tr>
+            <td>{{ data.sale.id }}</td>
+            <td>{{ data.sale.customer.name }}</td>
+            <td>
+                <ul>
+                    {% for item in data.sale.items.all %}
+                    <li>{{ item.product.name }} (x{{ item.quantity }})</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>#{{ data.total_amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> -->
+    </div>
+</body>
+</html>
+
+{% endblock %}
