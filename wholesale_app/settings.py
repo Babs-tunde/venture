@@ -94,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'RaitunuDB',
         'USER': 'postgres',
-        'PASSWORD': '1234',
+        'PASSWORD': 'Ad3tunj1',
         'HOST': 'localhost',
         'PORT': '5432',  # Default to 5432 if not set
     }
