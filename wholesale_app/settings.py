@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'inventory'
 ]
 
+# Whitenoise for serving static files
+INSTALLED_APPS += ["whitenoise.runserver_nostatic"]
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 ROOT_URLCONF = 'wholesale_app.urls'
 
 TEMPLATES = [
