@@ -16,5 +16,10 @@
       "src": "/(.*)",
       "dest": "wholesale_app/wsgi.py"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "PYTHONUNBUFFERED": "1"
+    }
+  }
 }
