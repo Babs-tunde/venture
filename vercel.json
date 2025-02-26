@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "venture/wholesale_app/wsgi.py",
+      "src": "wholesale_app/wsgi.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "50mb",
